@@ -1,5 +1,5 @@
 #########################################################################
-# Title:         Cloudbox: Node.js                                      #
+# Title:         Cloudbox: Node.js | NPM                                #
 # Author(s):     desimaniac                                             #
 # URL:           https://github.com/cloudbox/cloudbox                   #
 # --                                                                    #
@@ -8,14 +8,17 @@
 #                   GNU General Public License v3.0                     #
 #########################################################################
 ---
-- name: Node.js Tasks
-  import_tasks: subtasks/nodejs.yml
+- name: NPM | Install NPM
+  shell: "{{ nodejs_npm_install_command }}"
 
-- name: NPM Tasks
-  import_tasks: subtasks/npm.yml
+- name: NPM | Update NPM
+  shell: "{{ nodejs_npm_update_command }}"
 
-- name: Frontail Tasks
-  import_tasks: subtasks/frontail.yml
+- name: NPM | Get binary version
+  shell: "{{ nodejs_npm_binary_version_lookup_command }}"
+  register: npm_binary_version
 
-- name: Hastebin Tasks
-  import_tasks: subtasks/hastebin.yml
+- name: NPM | Display binary version
+  debug:
+    msg: "NPM {{ npm_binary_version }} installed."
+  when: npm_binary_version is succeeded
